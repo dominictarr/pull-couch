@@ -13,6 +13,7 @@ module.exports = function (onHeader) {
     //filter first and last lines.
     //this is much faster than a valid json parser...
     pull.map(function (line) {
+      line = line.trim()
       var last = line[line.length - 1]
       if(last == ',')
         return line.substring(0, line.length - 1)
