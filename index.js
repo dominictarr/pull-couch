@@ -8,12 +8,11 @@ module.exports = function (onHeader) {
     utf8(),
     //couchdb outputs {rows:[..]}
     //and each now ends with ",\r" so just match that
-    //and dump the 
+    //and dump the extra bits.
     split(/\r+/),
     //filter first and last lines.
-    //this is much faster than a valid json parser.
+    //this is much faster than a valid json parser...
     pull.map(function (line) {
-      line = line.trim()
       var last = line[line.length - 1]
       if(last == ',')
         return line.substring(0, line.length - 1)
@@ -27,9 +26,12 @@ module.exports = function (onHeader) {
       }
     }),
     pull.filter(Boolean),
-    pull.through(console.error),
     pull.map(JSON.parse)
   )
 }
+
+
+
+
 
 
